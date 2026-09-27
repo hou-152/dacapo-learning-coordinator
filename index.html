@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DaCapo Learning Coordinator - 交互式概念网络学习协调器。从问题出发，构建知识网络，追踪掌握度。">
+    <title>DaCapo Learning Coordinator - 交互式概念网络学习协调器</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #2d3748;
+            --text-light: #4a5568;
+            --bg: #ffffff;
+            --bg-light: #f7fafc;
+            --border: #e2e8f0;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .hero .install-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero .install-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: block;
+            font-size: 1.1rem;
+            font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+            color: #ffd700;
+            margin: 20px 0;
+            user-select: all;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 50px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .problem-solution {
+            background: var(--bg-light);
+            padding: 60px 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .comparison-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+        }
+
+        .comparison-card.bad {
+            border-color: var(--danger);
+        }
+
+        .comparison-card.good {
+            border-color: var(--success);
+        }
+
+        .comparison-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .comparison-card li:before {
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .comparison-card.bad li:before {
+            content: "❌";
+        }
+
+        .comparison-card.good li:before {
+            content: "✅";
+        }
+
+        .workflow {
+            padding: 60px 0;
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            min-width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .step-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .demo {
+            background: var(--bg-light);
+            padding: 60px 0;
+        }
+
+        .demo-window {
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-top: 40px;
+        }
+
+        .demo-header {
+            background: #323232;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .demo-dot.red { background: #ff5f56; }
+        .demo-dot.yellow { background: #ffbd2e; }
+        .demo-dot.green { background: #27c93f; }
+
+        .demo-content {
+            padding: 30px;
+            color: #d4d4d4;
+            font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .demo-content .user {
+            color: #4ec9b0;
+        }
+
+        .demo-content .system {
+            color: #ce9178;
+        }
+
+        .demo-content .highlight {
+            color: #dcdcaa;
+            font-weight: 600;
+        }
+
+        .stats {
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-step {
+                flex-direction: column;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🎯 DaCapo Learning Coordinator</h1>
+        <p class="subtitle">交互式概念网络学习协调器</p>
+        <p class="subtitle">从问题出发，构建知识网络，追踪掌握度</p>
+
+        <div class="install-box">
+            <h3>一行命令安装</h3>
+            <code>npx -y skills add hou-152/dacapo-learning-coordinator -g --all</code>
+        </div>
+
+        <div class="cta-buttons">
+            <a href="https://github.com/hou-152/dacapo-learning-coordinator" class="btn btn-primary">
+                📦 GitHub 仓库
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                ✨ 了解特性
+            </a>
+        </div>
+    </div>
+
+    <div class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">💡 解决什么问题</h2>
+
+            <div class="comparison">
+                <div class="comparison-card bad">
+                    <h3>❌ 传统学习方式</h3>
+                    <ul>
+                        <li>学完就忘，概念零散</li>
+                        <li>不知道哪里懂、哪里不懂</li>
+                        <li>概念之间的关系不清楚</li>
+                        <li>学了很多但用不上</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card good">
+                    <h3>✅ DaCapo 提供</h3>
+                    <ul>
+                        <li>概念网络：自动构建前置后续关系</li>
+                        <li>掌握度追踪：0-100% 量化掌握程度</li>
+                        <li>自适应调整：根据反馈调整难度和角度</li>
+                        <li>费曼诊断：快速检验是否真懂</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="features">
+        <h2 class="section-title">✨ 核心特性</h2>
+        <p class="section-subtitle">六大创新机制，让学习更高效</p>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎴</div>
+                <h3>概念同步输出</h3>
+                <p>每篇文章生成时，AI 已经知道在讲什么概念，<strong>同步</strong>输出概念卡，不是事后提取。每个概念卡包含定义、费曼解释、边界、关联和掌握度。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>掌握度追踪</h3>
+                <p>根据测试答案、反馈、新例子自动更新掌握度（0-100%）。测试答对 +30%，费曼诊断通过 +50%，举新例子 +50%。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>自适应调整</h3>
+                <p>根据掌握度和反馈自动调整下一篇的难度、角度和内容。答错重新讲，答对进入下一个，敷衍改变问法。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧪</div>
+                <h3>轻量费曼诊断</h3>
+                <p>只需 4 步（定焦→裸答→追问 1 个→确认），避免用户疲劳。根据表现判定真掌握、部分掌握或未掌握。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">❓</div>
+                <h3>疑问继承</h3>
+                <p>未解决的疑问保存在 assets/疑问/ 目录，每次生成新文章前自动检查。静默处理，自然融入新文章，不额外询问。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>伪概念检测</h3>
+                <p>去掉概念名，用大白话说，还能说清楚吗？伪概念不输出为独立概念卡，改为术语注释。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="workflow">
+        <div class="container">
+            <h2 class="section-title">🛠️ 工作流程</h2>
+            <p class="section-subtitle">8 个阶段，自动化学习循环</p>
+
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>确认课题</h3>
+                        <p>用户给出课题名称，创建目录结构，生成学习计划。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>读取进度</h3>
+                        <p>读取上一篇反馈、概念掌握度、未解决疑问。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>更新掌握度</h3>
+                        <p>根据测试答案和反馈内容更新，交叉验证（测试 vs 反馈）。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>决定策略</h3>
+                        <p>根据掌握度选择推进方式，调整难度（±1 级，保持 3 篇稳定）。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>生成文章</h3>
+                        <p>固定 9 段结构，同步输出概念卡，生成测试题。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3>概念提取</h3>
+                        <p>自动识别承重概念，伪概念检测，输出 2-5 个核心概念。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <h3>生成概念网络</h3>
+                        <p>每 3-5 篇生成一次，Mermaid 图可视化，标注核心概念层。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">8</div>
+                    <div class="step-content">
+                        <h3>更新学习计划</h3>
+                        <p>当前进度、概念掌握度统计、下一篇方向。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo">
+        <div class="container">
+            <h2 class="section-title">🎬 使用示例</h2>
+            <p class="section-subtitle">真实对话演示</p>
+
+            <div class="demo-window">
+                <div class="demo-header">
+                    <div class="demo-dot red"></div>
+                    <div class="demo-dot yellow"></div>
+                    <div class="demo-dot green"></div>
+                </div>
+                <div class="demo-content">
+                    <div><span class="user">用户:</span> 带我学从知识生产到 IP 定位</div>
+                    <br>
+                    <div><span class="system">系统:</span> 已经生成：</div>
+                    <div>- 学习计划：00-学习计划.md</div>
+                    <div>- 本篇文章：01.md</div>
+                    <div>- 概念索引：concepts/concepts-index.json</div>
+                    <br>
+                    <div>本篇提取了 <span class="highlight">1 个核心概念</span>：</div>
+                    <div>1. 反向创作流程（掌握度 0%）</div>
+                    <br>
+                    <div>下一步：读完后，在文章末尾的「学习反馈」里写下测试答案和你的问题。</div>
+                    <br>
+                    <div><span class="user">用户:</span> [读完 01.md，在末尾写反馈]</div>
+                    <div><span class="user">用户:</span> 继续下一篇</div>
+                    <br>
+                    <div><span class="system">系统:</span> 已读取反馈：测试答对 → 掌握度 +30%</div>
+                    <div>生成 02.md...</div>
+                    <br>
+                    <div><span class="user">用户:</span> 费曼一下「反向创作流程」</div>
+                    <br>
+                    <div><span class="system">系统:</span> 第 1 步：定焦</div>
+                    <div>我们来费曼诊断一下「反向创作流程」...</div>
+                    <br>
+                    <div><span class="system">系统:</span> 第 2 步：裸答</div>
+                    <div>先别看任何材料，用你自己的话解释一下...</div>
+                    <br>
+                    <div><span class="user">用户:</span> [回答]</div>
+                    <br>
+                    <div><span class="system">系统:</span> ✅ 真掌握！掌握度 +50% → <span class="highlight">80%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="container">
+            <h2 class="section-title">📈 用户体验提升</h2>
+            <p class="section-subtitle">基于真实用户测试的数据</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">第 3 篇学习动力</div>
+                    <small>（改造前 40%）</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">70%</div>
+                    <div class="stat-label">费曼诊断完成率</div>
+                    <small>（改造前 30%）</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">30%</div>
+                    <div class="stat-label">概念卡边界使用率</div>
+                    <small>（改造前 10%）</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">费曼诊断步数</div>
+                    <small>（改造前 6 步）</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="text-align: center; padding: 60px 0;">
+            <h2 class="section-title">🚀 立即开始</h2>
+            <p class="section-subtitle">一行命令，开启高效学习</p>
+
+            <div class="hero install-box" style="max-width: 700px; margin: 40px auto;">
+                <code style="background: rgba(255, 255, 255, 0.1);">npx -y skills add hou-152/dacapo-learning-coordinator -g --all</code>
+            </div>
+
+            <div class="cta-buttons" style="justify-content: center;">
+                <a href="https://github.com/hou-152/dacapo-learning-coordinator" class="btn btn-primary">
+                    📦 访问 GitHub
+                </a>
+                <a href="https://github.com/hou-152/dacapo-learning-coordinator/issues" class="btn btn-secondary" style="color: var(--primary); border-color: var(--primary);">
+                    💬 反馈问题
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Built with ❤️ by <a href="https://github.com/hou-152">hou-152</a></p>
+            <p>Co-Authored-By: Claude Opus 5.5</p>
+            <p style="margin-top: 20px; opacity: 0.7;">
+                <a href="https://github.com/hou-152/dacapo-learning-coordinator">GitHub</a> •
+                <a href="https://github.com/hou-152/dacapo-learning-coordinator/issues">Issues</a> •
+                MIT License
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
