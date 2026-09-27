@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DaCapo Learning Coordinator - 交互式概念网络学习协调器。从问题出发，构建知识网络，追踪掌握度。">
-    <title>DaCapo Learning Coordinator - 交互式概念网络学习协调器</title>
+    <meta name="description" content="DaCapo Learning Coordinator - 交互式概念网络学习协调器">
+    <title>DaCapo Learning Coordinator</title>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #121212;
-            --bg-tertiary: #1a1a1a;
-            --bg-elevated: #1e1e1e;
+            --bg-base: #0d0d0d;
+            --bg-elevated: #131313;
+            --bg-card: #0f1011;
             
             --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --text-tertiary: #707070;
+            --text-secondary: #9ca3af;
+            --text-tertiary: #6b7280;
             
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --accent-dim: rgba(59, 130, 246, 0.1);
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --accent-muted: rgba(139, 92, 246, 0.08);
             
-            --border: #2a2a2a;
-            --border-bright: #3a3a3a;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-bright: rgba(255, 255, 255, 0.1);
             
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --radius: 12px;
         }
 
         * {
@@ -34,13 +33,18 @@
             box-sizing: border-box;
         }
 
+        html {
+            font-feature-settings: "cv01", "ss03";
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            font-family: 'Inter var', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
             line-height: 1.6;
             color: var(--text-primary);
-            background: var(--bg-primary);
-            overflow-x: hidden;
+            background: var(--bg-base);
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .particles {
@@ -51,128 +55,105 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
+            opacity: 0.4;
         }
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
+            width: 1px;
+            height: 1px;
             background: var(--text-tertiary);
             border-radius: 50%;
             opacity: 0.3;
-            animation: float 20s infinite ease-in-out;
+            animation: drift 25s infinite ease-in-out;
         }
 
-        @keyframes float {
+        @keyframes drift {
             0%, 100% { transform: translate(0, 0); opacity: 0.2; }
-            25% { transform: translate(100px, -100px); opacity: 0.4; }
-            50% { transform: translate(-50px, -200px); opacity: 0.2; }
-            75% { transform: translate(-150px, -100px); opacity: 0.4; }
+            50% { transform: translate(60px, -120px); opacity: 0.4; }
         }
 
         .hero {
             position: relative;
-            background: var(--bg-secondary);
-            padding: 120px 20px 80px;
+            padding: 160px 24px 120px;
             text-align: center;
             border-bottom: 1px solid var(--border);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
+            background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-base) 100%);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            animation: fadeInUp 0.8s ease-out;
+            font-size: 4rem;
+            font-weight: 590;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero .subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
+            font-weight: 400;
             color: var(--text-secondary);
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero .install-box {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-bright);
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 700px;
-            margin: 40px auto 0;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .hero .install-box h3 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-tertiary);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .hero .install-box code {
-            background: var(--bg-primary);
-            padding: 20px 25px;
-            border-radius: 8px;
-            display: block;
-            font-size: 0.95rem;
-            font-family: "SF Mono", Monaco, "Cascadia Code", "Fira Code", monospace;
-            color: var(--accent);
+        .install-command {
+            max-width: 680px;
+            margin: 0 auto 48px;
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            user-select: all;
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            font-family: 'SF Mono', Consolas, monospace;
+            font-size: 0.875rem;
+            color: var(--accent);
+            text-align: left;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s ease;
             position: relative;
         }
 
-        .hero .install-box code::before {
-            content: 'Click to Copy';
+        .install-command::before {
+            content: 'INSTALLATION';
             position: absolute;
-            top: 8px;
-            right: 12px;
-            font-size: 0.7rem;
+            top: -10px;
+            left: 16px;
+            background: var(--bg-card);
+            padding: 0 8px;
+            font-size: 0.625rem;
+            font-weight: 510;
+            letter-spacing: 0.08em;
             color: var(--text-tertiary);
-            font-family: -apple-system, sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-family: 'Inter var', sans-serif;
         }
 
-        .hero .install-box code:hover {
-            border-color: var(--accent);
-            background: var(--bg-secondary);
+        .install-command:hover {
+            border-color: var(--border-bright);
+            background: var(--bg-elevated);
         }
 
-        .hero .cta-buttons {
+        .cta-group {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             justify-content: center;
-            margin-top: 40px;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
+            align-items: center;
         }
 
         .btn {
-            padding: 12px 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
             border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 510;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            display: inline-block;
+            transition: all 0.12s ease;
             border: 1px solid transparent;
         }
 
@@ -183,413 +164,353 @@
 
         .btn-primary:hover {
             background: var(--accent-hover);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: transparent;
             color: var(--text-primary);
             border-color: var(--border-bright);
+            background: transparent;
         }
 
         .btn-secondary:hover {
             border-color: var(--accent);
-            background: var(--accent-dim);
+            background: var(--accent-muted);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 120px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 72px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 510;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+            margin-bottom: 16px;
         }
 
         .section-title {
-            text-align: center;
             font-size: 2.5rem;
+            font-weight: 590;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
             margin-bottom: 16px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
         }
 
         .section-subtitle {
-            text-align: center;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
             color: var(--text-secondary);
-            margin-bottom: 60px;
-        }
-
-        .problem-solution {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .comparison {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 50px;
+            gap: 24px;
         }
 
-        .comparison-card {
-            background: var(--bg-elevated);
-            padding: 40px;
-            border-radius: 12px;
+        .card {
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.2s ease;
         }
 
-        .comparison-card.bad {
-            border-color: rgba(239, 68, 68, 0.3);
+        .card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-2px);
         }
 
-        .comparison-card.bad:hover {
-            border-color: var(--danger);
-            background: var(--bg-tertiary);
-        }
-
-        .comparison-card.good {
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        .comparison-card.good:hover {
-            border-color: var(--success);
-            background: var(--bg-tertiary);
-        }
-
-        .comparison-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 24px;
+        .card-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            font-weight: 700;
+            margin-bottom: 24px;
         }
 
-        .comparison-card .icon {
-            width: 24px;
-            height: 24px;
+        .card-icon {
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            border-radius: 6px;
         }
 
-        .comparison-card ul {
+        .card-icon.bad {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .card-icon.good {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 510;
+            letter-spacing: -0.01em;
+        }
+
+        .card ul {
             list-style: none;
-            padding: 0;
         }
 
-        .comparison-card li {
-            padding: 12px 0;
-            padding-left: 28px;
-            position: relative;
+        .card li {
+            padding: 10px 0;
+            padding-left: 20px;
             color: var(--text-secondary);
-            transition: all 0.2s;
+            font-size: 0.9375rem;
+            position: relative;
         }
 
-        .comparison-card li:hover {
-            color: var(--text-primary);
-            padding-left: 32px;
-        }
-
-        .comparison-card li:before {
+        .card li::before {
             content: '';
             position: absolute;
             left: 0;
             top: 18px;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
-            transition: all 0.2s;
-        }
-
-        .comparison-card.bad li:before {
-            background: var(--danger);
-        }
-
-        .comparison-card.good li:before {
-            background: var(--success);
+            background: var(--text-tertiary);
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: var(--bg-secondary);
-            padding: 32px;
-            border-radius: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
+        .feature {
+            background: var(--bg-card);
+            padding: 32px;
+            transition: background 0.2s ease;
+        }
+
+        .feature:hover {
             background: var(--bg-elevated);
         }
 
         .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--accent-dim);
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: var(--accent-muted);
+            border-radius: 8px;
             margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--accent);
-            transform: scale(1.1);
         }
 
         .feature-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             stroke: var(--accent);
-            transition: all 0.3s;
         }
 
-        .feature-card:hover .feature-icon svg {
-            stroke: white;
+        .feature h3 {
+            font-size: 1.125rem;
+            font-weight: 510;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
         }
 
-        .feature-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .feature-card p {
+        .feature p {
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
-        .workflow {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .workflow-steps {
+        .timeline {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-            margin-top: 60px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .workflow-steps::before {
+        .timeline::before {
             content: '';
             position: absolute;
             left: 23px;
             top: 0;
             bottom: 0;
-            width: 2px;
+            width: 1px;
             background: var(--border);
         }
 
-        .workflow-step {
+        .timeline-item {
             display: flex;
-            gap: 32px;
+            gap: 24px;
+            margin-bottom: 32px;
             align-items: flex-start;
-            animation: slideInLeft 0.6s ease-out both;
         }
 
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .step-number {
-            min-width: 48px;
+        .timeline-number {
+            width: 48px;
             height: 48px;
-            background: var(--bg-elevated);
-            color: var(--accent);
-            border: 2px solid var(--accent);
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 0.875rem;
+            font-weight: 510;
+            color: var(--accent);
             flex-shrink: 0;
-            transition: all 0.3s;
             position: relative;
             z-index: 1;
         }
 
-        .workflow-step:hover .step-number {
-            background: var(--accent);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .step-content {
+        .timeline-content {
             flex: 1;
-            background: var(--bg-elevated);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
+            padding-top: 6px;
         }
 
-        .step-content:hover {
-            border-color: var(--accent);
-            background: var(--bg-tertiary);
+        .timeline-content h3 {
+            font-size: 1.125rem;
+            font-weight: 510;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
         }
 
-        .step-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .step-content p {
+        .timeline-content p {
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .demo {
-            padding: 80px 0;
+            line-height: 1.6;
         }
 
         .demo-window {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            overflow: hidden;
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            margin-top: 50px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .demo-header {
-            background: var(--bg-tertiary);
             padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 6px;
         }
 
         .demo-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--border-bright);
         }
 
         .demo-content {
-            padding: 32px;
-            color: var(--text-secondary);
-            font-family: "SF Mono", Monaco, "Cascadia Code", "Fira Code", monospace;
-            font-size: 0.9rem;
+            padding: 24px;
+            font-family: 'SF Mono', Consolas, monospace;
+            font-size: 0.8125rem;
             line-height: 1.8;
-            max-height: 500px;
+            color: var(--text-secondary);
+            max-height: 480px;
             overflow-y: auto;
         }
 
         .demo-content::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         .demo-content::-webkit-scrollbar-track {
-            background: var(--bg-primary);
+            background: transparent;
         }
 
         .demo-content::-webkit-scrollbar-thumb {
             background: var(--border-bright);
-            border-radius: 4px;
-        }
-
-        .demo-content::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
+            border-radius: 3px;
         }
 
         .demo-line {
-            animation: typing 0.3s steps(30) both;
             opacity: 0;
+            animation: fadeIn 0.2s ease forwards;
         }
 
-        @keyframes typing {
+        @keyframes fadeIn {
             to { opacity: 1; }
         }
 
-        .demo-content .user {
-            color: var(--accent);
-            font-weight: 600;
-        }
+        .demo-content .user { color: var(--accent); font-weight: 510; }
+        .demo-content .system { color: #10b981; font-weight: 510; }
+        .demo-content .highlight { color: var(--text-primary); font-weight: 510; }
 
-        .demo-content .system {
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .demo-content .highlight {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .stats-grid {
+        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-top: 50px;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 40px;
-            background: var(--bg-secondary);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            transition: all 0.3s;
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
+        .stat {
+            background: var(--bg-card);
+            padding: 40px 24px;
+            text-align: center;
+            transition: background 0.2s ease;
+        }
+
+        .stat:hover {
             background: var(--bg-elevated);
         }
 
         .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 8px;
+            font-size: 3rem;
+            font-weight: 590;
+            letter-spacing: -0.03em;
             color: var(--accent);
+            margin-bottom: 8px;
         }
 
         .stat-label {
-            font-size: 1.1rem;
+            font-size: 0.875rem;
+            font-weight: 510;
             color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .stat-card small {
-            display: block;
+        .stat-note {
+            font-size: 0.75rem;
             color: var(--text-tertiary);
-            font-size: 0.85rem;
         }
 
         footer {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            padding: 60px 20px;
-            text-align: center;
             border-top: 1px solid var(--border);
+            padding: 64px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
         footer a {
             color: var(--accent);
             text-decoration: none;
-            transition: all 0.2s;
+            transition: color 0.12s ease;
         }
 
         footer a:hover {
@@ -598,21 +519,19 @@
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            .hero .subtitle { font-size: 1.1rem; }
             .comparison { grid-template-columns: 1fr; }
-            .workflow-step { flex-direction: column; }
-            .workflow-steps::before { display: none; }
-            .section-title { font-size: 2rem; }
-            .stat-number { font-size: 2.5rem; }
+            .features { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .timeline::before { display: none; }
         }
 
-        .scroll-reveal {
+        .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
         }
 
-        .scroll-reveal.active {
+        .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -622,329 +541,303 @@
     <div class="particles" id="particles"></div>
 
     <div class="hero">
-        <div class="hero-content">
-            <h1>DaCapo Learning Coordinator</h1>
-            <p class="subtitle">交互式概念网络学习协调器</p>
-            <p class="subtitle">从问题出发，构建知识网络，追踪掌握度</p>
+        <h1>DaCapo Learning Coordinator</h1>
+        <p class="subtitle">交互式概念网络学习协调器<br>从问题出发，构建知识网络，追踪掌握度</p>
+        
+        <div class="install-command" id="install-cmd">
+            npx -y skills add hou-152/dacapo-learning-coordinator -g --all
+        </div>
 
-            <div class="install-box">
-                <h3>Installation</h3>
-                <code id="install-cmd">npx -y skills add hou-152/dacapo-learning-coordinator -g --all</code>
-            </div>
-
-            <div class="cta-buttons">
-                <a href="https://github.com/hou-152/dacapo-learning-coordinator" class="btn btn-primary">
-                    GitHub Repository
-                </a>
-                <a href="#features" class="btn btn-secondary">
-                    View Features
-                </a>
-            </div>
+        <div class="cta-group">
+            <a href="https://github.com/hou-152/dacapo-learning-coordinator" class="btn btn-primary">
+                GitHub Repository
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                View Features
+            </a>
         </div>
     </div>
 
-    <div class="problem-solution">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Problem & Solution</h2>
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-label">Problem & Solution</div>
+            <h2 class="section-title">重新定义概念学习</h2>
+        </div>
 
-            <div class="comparison">
-                <div class="comparison-card bad scroll-reveal">
-                    <h3>
-                        <span class="icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </span>
-                        传统学习方式
-                    </h3>
-                    <ul>
-                        <li>学完就忘，概念零散</li>
-                        <li>不知道哪里懂、哪里不懂</li>
-                        <li>概念之间的关系不清楚</li>
-                        <li>学了很多但用不上</li>
-                    </ul>
+        <div class="comparison">
+            <div class="card fade-in">
+                <div class="card-header">
+                    <div class="card-icon bad">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="4" x2="4" y2="12"/>
+                            <line x1="4" y1="4" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <h3>传统学习方式</h3>
                 </div>
+                <ul>
+                    <li>学完就忘，概念零散</li>
+                    <li>不知道哪里懂、哪里不懂</li>
+                    <li>概念之间的关系不清楚</li>
+                    <li>学了很多但用不上</li>
+                </ul>
+            </div>
 
-                <div class="comparison-card good scroll-reveal">
-                    <h3>
-                        <span class="icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                        </span>
-                        DaCapo 提供
-                    </h3>
-                    <ul>
-                        <li>概念网络：自动构建前置后续关系</li>
-                        <li>掌握度追踪：0-100% 量化掌握程度</li>
-                        <li>自适应调整：根据反馈调整难度和角度</li>
-                        <li>费曼诊断：快速检验是否真懂</li>
-                    </ul>
+            <div class="card fade-in">
+                <div class="card-header">
+                    <div class="card-icon good">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="13 4 6 11 3 8"/>
+                        </svg>
+                    </div>
+                    <h3>DaCapo 提供</h3>
                 </div>
+                <ul>
+                    <li>概念网络：自动构建前置后续关系</li>
+                    <li>掌握度追踪：0-100% 量化掌握程度</li>
+                    <li>自适应调整：根据反馈调整难度和角度</li>
+                    <li>费曼诊断：快速检验是否真懂</li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="container" id="features">
-        <h2 class="section-title scroll-reveal">Core Features</h2>
-        <p class="section-subtitle scroll-reveal">六大创新机制，让学习更高效</p>
+        <div class="section-header fade-in">
+            <div class="section-label">Core Features</div>
+            <h2 class="section-title">六大创新机制</h2>
+            <p class="section-subtitle">让学习更高效</p>
+        </div>
 
         <div class="features">
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="9" y1="9" x2="15" y2="9"></line>
-                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="14" height="14" rx="2"/>
+                        <line x1="7" y1="7" x2="13" y2="7"/>
+                        <line x1="7" y1="13" x2="13" y2="13"/>
                     </svg>
                 </div>
                 <h3>概念同步输出</h3>
-                <p>每篇文章生成时，AI 已经知道在讲什么概念，同步输出概念卡，不是事后提取。每个概念卡包含定义、费曼解释、边界、关联和掌握度。</p>
+                <p>每篇文章生成时，AI 已经知道在讲什么概念，同步输出概念卡</p>
             </div>
 
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="20" x2="18" y2="10"></line>
-                        <line x1="12" y1="20" x2="12" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="15" y1="17" x2="15" y2="9"/>
+                        <line x1="10" y1="17" x2="10" y2="3"/>
+                        <line x1="5" y1="17" x2="5" y2="12"/>
                     </svg>
                 </div>
                 <h3>掌握度追踪</h3>
-                <p>根据测试答案、反馈、新例子自动更新掌握度（0-100%）。测试答对 +30%，费曼诊断通过 +50%，举新例子 +50%。</p>
+                <p>根据测试答案、反馈、新例子自动更新掌握度（0-100%）</p>
             </div>
 
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                        <polyline points="17 6 23 6 23 12"></polyline>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="18 5 11 12 7 8 2 13"/>
+                        <polyline points="14 5 18 5 18 9"/>
                     </svg>
                 </div>
                 <h3>自适应调整</h3>
-                <p>根据掌握度和反馈自动调整下一篇的难度、角度和内容。答错重新讲，答对进入下一个，敷衍改变问法。</p>
+                <p>根据掌握度和反馈自动调整下一篇的难度、角度和内容</p>
             </div>
 
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/>
+                        <polyline points="12 2 12 7 17 7"/>
+                        <line x1="13" y1="11" x2="7" y2="11"/>
+                        <line x1="13" y1="15" x2="7" y2="15"/>
                     </svg>
                 </div>
                 <h3>轻量费曼诊断</h3>
-                <p>只需 4 步（定焦→裸答→追问 1 个→确认），避免用户疲劳。根据表现判定真掌握、部分掌握或未掌握。</p>
+                <p>只需 4 步（定焦→裸答→追问→确认），避免用户疲劳</p>
             </div>
 
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="10" cy="10" r="8"/>
+                        <line x1="10" y1="14" x2="10" y2="10"/>
+                        <line x1="10" y1="6" x2="10.01" y2="6"/>
                     </svg>
                 </div>
                 <h3>疑问继承</h3>
-                <p>未解决的疑问保存在 assets/疑问/ 目录，每次生成新文章前自动检查。静默处理，自然融入新文章，不额外询问。</p>
+                <p>未解决的疑问保存并自动检查，静默处理，自然融入新文章</p>
             </div>
 
-            <div class="feature-card scroll-reveal">
+            <div class="feature fade-in">
                 <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <svg viewBox="0 0 20 20" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="9" r="7"/>
+                        <line x1="17" y1="17" x2="14" y2="14"/>
                     </svg>
                 </div>
                 <h3>伪概念检测</h3>
-                <p>去掉概念名，用大白话说，还能说清楚吗？伪概念不输出为独立概念卡，改为术语注释。</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="workflow">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Workflow</h2>
-            <p class="section-subtitle scroll-reveal">8 个阶段，自动化学习循环</p>
-
-            <div class="workflow-steps">
-                <div class="workflow-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>确认课题</h3>
-                        <p>用户给出课题名称，创建目录结构，生成学习计划。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>读取进度</h3>
-                        <p>读取上一篇反馈、概念掌握度、未解决疑问。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>更新掌握度</h3>
-                        <p>根据测试答案和反馈内容更新，交叉验证（测试 vs 反馈）。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>决定策略</h3>
-                        <p>根据掌握度选择推进方式，调整难度（±1 级，保持 3 篇稳定）。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3>生成文章</h3>
-                        <p>固定 9 段结构，同步输出概念卡，生成测试题。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <h3>概念提取</h3>
-                        <p>自动识别承重概念，伪概念检测，输出 2-5 个核心概念。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">7</div>
-                    <div class="step-content">
-                        <h3>生成概念网络</h3>
-                        <p>每 3-5 篇生成一次，Mermaid 图可视化，标注核心概念层。</p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">8</div>
-                    <div class="step-content">
-                        <h3>更新学习计划</h3>
-                        <p>当前进度、概念掌握度统计、下一篇方向。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="demo">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Demo</h2>
-            <p class="section-subtitle scroll-reveal">真实对话演示</p>
-
-            <div class="demo-window scroll-reveal">
-                <div class="demo-header">
-                    <div class="demo-dot"></div>
-                    <div class="demo-dot"></div>
-                    <div class="demo-dot"></div>
-                </div>
-                <div class="demo-content" id="demo-content"></div>
+                <p>去掉概念名，用大白话说，还能说清楚吗？真实检验理解</p>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <h2 class="section-title scroll-reveal">Performance Metrics</h2>
-        <p class="section-subtitle scroll-reveal">基于真实用户测试的数据</p>
+        <div class="section-header fade-in">
+            <div class="section-label">Workflow</div>
+            <h2 class="section-title">8 个阶段</h2>
+            <p class="section-subtitle">自动化学习循环</p>
+        </div>
 
-        <div class="stats-grid">
-            <div class="stat-card scroll-reveal">
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">1</div>
+                <div class="timeline-content">
+                    <h3>确认课题</h3>
+                    <p>用户给出课题名称，创建目录结构，生成学习计划</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">2</div>
+                <div class="timeline-content">
+                    <h3>读取进度</h3>
+                    <p>读取上一篇反馈、概念掌握度、未解决疑问</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">3</div>
+                <div class="timeline-content">
+                    <h3>更新掌握度</h3>
+                    <p>根据测试答案和反馈内容更新，交叉验证</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">4</div>
+                <div class="timeline-content">
+                    <h3>决定策略</h3>
+                    <p>根据掌握度选择推进方式，调整难度</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">5</div>
+                <div class="timeline-content">
+                    <h3>生成文章</h3>
+                    <p>固定 9 段结构，同步输出概念卡，生成测试题</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">6</div>
+                <div class="timeline-content">
+                    <h3>概念提取</h3>
+                    <p>自动识别承重概念，伪概念检测，输出 2-5 个核心概念</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">7</div>
+                <div class="timeline-content">
+                    <h3>生成概念网络</h3>
+                    <p>每 3-5 篇生成一次，Mermaid 图可视化，标注核心概念层</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-number">8</div>
+                <div class="timeline-content">
+                    <h3>更新学习计划</h3>
+                    <p>当前进度、概念掌握度统计、下一篇方向</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-label">Demo</div>
+            <h2 class="section-title">真实对话演示</h2>
+        </div>
+
+        <div class="demo-window fade-in">
+            <div class="demo-header">
+                <div class="demo-dot"></div>
+                <div class="demo-dot"></div>
+                <div class="demo-dot"></div>
+            </div>
+            <div class="demo-content" id="demo-content"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-label">Performance</div>
+            <h2 class="section-title">用户体验提升</h2>
+            <p class="section-subtitle">基于真实用户测试的数据</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat fade-in">
                 <div class="stat-number" data-target="60">0</div>
                 <div class="stat-label">第 3 篇学习动力</div>
-                <small>（改造前 40%）</small>
+                <div class="stat-note">改造前 40%</div>
             </div>
 
-            <div class="stat-card scroll-reveal">
+            <div class="stat fade-in">
                 <div class="stat-number" data-target="70">0</div>
                 <div class="stat-label">费曼诊断完成率</div>
-                <small>（改造前 30%）</small>
+                <div class="stat-note">改造前 30%</div>
             </div>
 
-            <div class="stat-card scroll-reveal">
+            <div class="stat fade-in">
                 <div class="stat-number" data-target="30">0</div>
                 <div class="stat-label">概念卡边界使用率</div>
-                <small>（改造前 10%）</small>
+                <div class="stat-note">改造前 10%</div>
             </div>
 
-            <div class="stat-card scroll-reveal">
+            <div class="stat fade-in">
                 <div class="stat-number" data-target="4">0</div>
                 <div class="stat-label">费曼诊断步数</div>
-                <small>（改造前 6 步）</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div style="text-align: center; padding: 80px 0;" class="scroll-reveal">
-            <h2 class="section-title">Get Started</h2>
-            <p class="section-subtitle">一行命令，开启高效学习</p>
-
-            <div class="hero install-box" style="max-width: 700px; margin: 40px auto;">
-                <code id="install-cmd-2">npx -y skills add hou-152/dacapo-learning-coordinator -g --all</code>
-            </div>
-
-            <div class="cta-buttons" style="justify-content: center;">
-                <a href="https://github.com/hou-152/dacapo-learning-coordinator" class="btn btn-primary">
-                    GitHub Repository
-                </a>
-                <a href="https://github.com/hou-152/dacapo-learning-coordinator/issues" class="btn btn-secondary">
-                    Report Issues
-                </a>
+                <div class="stat-note">改造前 6 步</div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="container">
-            <p style="font-size: 1rem; margin-bottom: 8px;">Built by <a href="https://github.com/hou-152">hou-152</a></p>
-            <p style="margin-bottom: 16px; font-size: 0.9rem;">Co-Authored-By: Claude Opus 5.5</p>
-            <p style="opacity: 0.7; font-size: 0.9rem;">
-                <a href="https://github.com/hou-152/dacapo-learning-coordinator">GitHub</a> •
-                <a href="https://github.com/hou-152/dacapo-learning-coordinator/issues">Issues</a> •
-                MIT License
-            </p>
-        </div>
+        <p>Built by <a href="https://github.com/hou-152">hou-152</a></p>
+        <p>Co-Authored-By: Claude Opus 5.5</p>
+        <p>
+            <a href="https://github.com/hou-152/dacapo-learning-coordinator">GitHub</a> ·
+            <a href="https://github.com/hou-152/dacapo-learning-coordinator/issues">Issues</a> ·
+            MIT License
+        </p>
     </footer>
 
     <script>
         function createParticles() {
             const container = document.getElementById('particles');
-            const particleCount = 40;
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 10) + 's';
                 container.appendChild(particle);
             }
         }
 
-        function setupCopyCommand() {
-            const codes = document.querySelectorAll('code');
-            codes.forEach(code => {
-                code.addEventListener('click', function() {
-                    const text = this.textContent;
-                    navigator.clipboard.writeText(text).then(() => {
-                        const original = this.innerHTML;
-                        this.innerHTML = '✓ Copied to clipboard';
-                        setTimeout(() => { this.innerHTML = original; }, 2000);
-                    });
-                });
+        document.getElementById('install-cmd').addEventListener('click', function() {
+            navigator.clipboard.writeText(this.textContent.trim()).then(() => {
+                const original = this.textContent;
+                this.textContent = '✓ Copied to clipboard';
+                setTimeout(() => { this.textContent = original; }, 2000);
             });
-        }
+        });
 
         function animateDemo() {
             const content = document.getElementById('demo-content');
@@ -959,9 +852,6 @@
                 '<div class="demo-line">本篇提取了 <span class="highlight">1 个核心概念</span>：</div>',
                 '<div class="demo-line">1. 反向创作流程（掌握度 0%）</div>',
                 '<div class="demo-line"><br></div>',
-                '<div class="demo-line">下一步：读完后，在文章末尾的「学习反馈」里写下测试答案和你的问题。</div>',
-                '<div class="demo-line"><br></div>',
-                '<div class="demo-line"><span class="user">用户:</span> [读完 01.md，在末尾写反馈]</div>',
                 '<div class="demo-line"><span class="user">用户:</span> 继续下一篇</div>',
                 '<div class="demo-line"><br></div>',
                 '<div class="demo-line"><span class="system">系统:</span> 已读取反馈：测试答对 → 掌握度 +30%</div>',
@@ -972,11 +862,6 @@
                 '<div class="demo-line"><span class="system">系统:</span> 第 1 步：定焦</div>',
                 '<div class="demo-line">我们来费曼诊断一下「反向创作流程」...</div>',
                 '<div class="demo-line"><br></div>',
-                '<div class="demo-line"><span class="system">系统:</span> 第 2 步：裸答</div>',
-                '<div class="demo-line">先别看任何材料，用你自己的话解释一下...</div>',
-                '<div class="demo-line"><br></div>',
-                '<div class="demo-line"><span class="user">用户:</span> [回答]</div>',
-                '<div class="demo-line"><br></div>',
                 '<div class="demo-line"><span class="system">系统: ✓ 真掌握！掌握度 +50% → <span class="highlight">80%</span></span></div>',
             ];
             let index = 0;
@@ -984,65 +869,48 @@
                 if (index < lines.length) {
                     content.innerHTML += lines[index];
                     index++;
-                    setTimeout(addLine, 150);
+                    setTimeout(addLine, 120);
                 }
             }
             addLine();
         }
 
-        function setupScrollReveal() {
-            const elements = document.querySelectorAll('.scroll-reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1 });
-            elements.forEach(el => observer.observe(el));
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
 
-        function animateNumbers() {
-            const numbers = document.querySelectorAll('.stat-number');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.getAttribute('data-target'));
-                        const duration = 2000;
-                        const step = target / (duration / 16);
-                        let current = 0;
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= target) {
-                                entry.target.textContent = target + '%';
-                                clearInterval(timer);
-                            } else {
-                                entry.target.textContent = Math.floor(current) + '%';
-                            }
-                        }, 16);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            numbers.forEach(num => observer.observe(num));
-        }
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-target'));
+                    const duration = 1800;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            entry.target.textContent = target + '%';
+                            clearInterval(timer);
+                        } else {
+                            entry.target.textContent = Math.floor(current) + '%';
+                        }
+                    }, 16);
+                    statObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-number').forEach(num => statObserver.observe(num));
 
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
-            setupCopyCommand();
             animateDemo();
-            setupScrollReveal();
-            animateNumbers();
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
         });
     </script>
 </body>
